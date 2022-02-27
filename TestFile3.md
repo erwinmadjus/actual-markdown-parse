@@ -1,4 +1,3 @@
-# This is a test file that contains no link
+# This is a test file that contains no No Close Parenthesis
 
-[testFileWithNoLink]()
-
+[testFileWithNoLink](something.com

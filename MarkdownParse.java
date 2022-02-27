@@ -14,28 +14,51 @@ public class MarkdownParse {
         while(currentIndex < markdown.length() &&
         markdown.substring(currentIndex).contains("["))
         {
+            int nextOpenBracket = markdown.indexOf("[", currentIndex);
+            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+            int openParen = markdown.indexOf("(", nextCloseBracket);
+            int closeParen = markdown.indexOf(")", openParen); 
             previousIndex = currentIndex;
 
-            int nextOpenBracket = markdown.indexOf("[", currentIndex);
+            int openParen2 = markdown.indexOf("(", openParen + 1);
+            int closeParen2 = markdown.indexOf(")", openParen2 + 1);
+
+//          int nextOpenBracket = markdown.indexOf("[", currentIndex);
+//          int openParen = markdown.indexOf("(", nextOpenBracket);
+//          int closeParen = markdown.indexOf(")", openParen);
 
             // This line of code checks to see if the link is an image link 
-            if(nextOpenBracket != 0 && markdown.charAt(nextOpenBracket -1) == '!'){   
+            // TestFile2.md
+            if (nextOpenBracket != 0 && markdown.charAt(nextOpenBracket -1) == '!'){   
                 currentIndex = nextOpenBracket+1;  
                 continue;   
             }
 
-            int openParen = markdown.indexOf("(", nextOpenBracket);
-            
+            // These lines of code checks to see if there is no close parenthesis
+            // TestFile3.md
+            if (nextOpenBracket == -1 || nextCloseBracket == -1 
+                    || closeParen == -1 || openParen == -1) {
+                return toReturn;
+            }
+
+            // 
+            // TestFile4.md
+            if (openParen2 == -1 && closeParen2 == -1 && closeParen == -1) {
+                closeParen = markdown.indexOf("]", openParen);
+                toReturn.add(markdown.substring(openParen + 1, closeParen));
+                return toReturn; 
+            }
+
             // check for ")["
             if (openParen > 0 && markdown.charAt(openParen-1) != ']') {
                 currentIndex = openParen + 1;
                 continue;
             }
 
-            int closeParen = markdown.indexOf(")", openParen);
 
+            // Test Code 
             if (nextOpenBracket == -1 
-            || openParen == -1 || closeParen == -1) break;
+                    || openParen == -1 || closeParen == -1) break;
             
             toReturn.add(markdown.substring(openParen + 1, closeParen));
             currentIndex = closeParen + 1;
@@ -44,7 +67,9 @@ public class MarkdownParse {
                 throw new IOException();
             }
         }
+    
         return toReturn;
+    
     }
     public static void main(String[] args) throws IOException {
 		Path fileName = Path.of(args[0]);
