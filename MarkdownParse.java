@@ -5,33 +5,43 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class MarkdownParse {
-    public static ArrayList<String> getLinks(String markdown) {
+    public static ArrayList<String> getLinks(String markdown) throws IOException {
         ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then take up to
         // the next )
         int currentIndex = 0;
-        while(currentIndex < markdown.length()) {
-            int nextOpenBracket = markdown.indexOf("[", currentIndex),
-                nextCloseBracket = markdown.indexOf("]", nextOpenBracket),
-                openParen = markdown.indexOf("(", nextCloseBracket),
-                closeParen = markdown.indexOf(")", openParen);
+        int previousIndex = -1;
+        while(currentIndex < markdown.length() &&
+        markdown.substring(currentIndex).contains("["))
+        {
+            previousIndex = currentIndex;
 
-            if(nextOpenBracket > 0 &&
-               markdown.charAt(nextOpenBracket-1) == '!'){
-                // Image, skip
-                currentIndex = nextCloseBracket + 1;
-            } else if(nextOpenBracket >= 0 &&
-                      nextCloseBracket >= 0 &&
-                      nextCloseBracket > nextOpenBracket+1 &&
-                      openParen == nextCloseBracket+1 &&
-                      closeParen >= 0
-            ){
-                // Valid link, add to list
-                toReturn.add(markdown.substring(openParen + 1, closeParen));
-                currentIndex = closeParen + 1;
-            } else {
-                // Invalid link, advance one character
-                currentIndex += 1;
+            int nextOpenBracket = markdown.indexOf("[", currentIndex);
+
+            // check for image links
+            if(nextOpenBracket != 0 && markdown.charAt(nextOpenBracket -1) == '!'){   
+                currentIndex = nextOpenBracket+1;  
+                continue;   
+            }
+
+            int openParen = markdown.indexOf("(", nextOpenBracket);
+            
+            // check for ")["
+            if (openParen > 0 && markdown.charAt(openParen-1) != ']') {
+                currentIndex = openParen + 1;
+                continue;
+            }
+
+            int closeParen = markdown.indexOf(")", openParen);
+
+            if (nextOpenBracket == -1 
+            || openParen == -1 || closeParen == -1) break;
+            
+            toReturn.add(markdown.substring(openParen + 1, closeParen));
+            currentIndex = closeParen + 1;
+
+            if (currentIndex <= previousIndex) {
+                throw new IOException();
             }
         }
         return toReturn;
