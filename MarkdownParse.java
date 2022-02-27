@@ -18,7 +18,7 @@ public class MarkdownParse {
 
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
 
-            // check for image links
+            // This line of code checks to see if the link is an image link 
             if(nextOpenBracket != 0 && markdown.charAt(nextOpenBracket -1) == '!'){   
                 currentIndex = nextOpenBracket+1;  
                 continue;   

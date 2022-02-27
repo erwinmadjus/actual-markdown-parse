@@ -20,10 +20,25 @@ public class MarkdownParseTest {
     }
 
     @Test
-    public void testFile10() throws IOException {
+    public void getLinks2() throws IOException {
         Path fileName = Path.of("TestFile2.md");
         String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         assertEquals(List.of(), links);
     }
+
+    @Test
+    public void getLinks3() throws IOException {
+        Path fileName = Path.of("TestFile3.md");
+        String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(List.of(), links);
+    } 
+
+    public void getLinks4() throws IOException {
+        Path fileName = Path.of("TestFile4.md");
+        String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(List.of(), links);
+    } 
 }
