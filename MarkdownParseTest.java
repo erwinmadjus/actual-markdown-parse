@@ -32,6 +32,12 @@ public class MarkdownParseTest {
         String contents = "[testFileWithNoLink](something.com";
         List<String> expect = List.of();
         assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
 
+    @Test // Test method for TestFile4.md
+    public void getLinks4() throws IOException {
+        String contents = "[LinkWithWordsInTheMiddle] There are words in between the two (Middle.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 }

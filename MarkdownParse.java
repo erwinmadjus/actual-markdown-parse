@@ -41,36 +41,48 @@ public class MarkdownParse {
                 return toReturn;
             }
 
-            // 
-            // TestFile4.md
-            if (openParen2 == -1 && closeParen2 == -1 && closeParen == -1) {
-                closeParen = markdown.indexOf("]", openParen);
-                toReturn.add(markdown.substring(openParen + 1, closeParen));
-                return toReturn; 
-            }
 
-            // check for ")["
+            // These lines of code checks to see if the program can still print out a link 
+            // if there are words in between the closed brackets and the open parenthesis
+            // TestFile4.md
             if (openParen > 0 && markdown.charAt(openParen-1) != ']') {
                 currentIndex = openParen + 1;
                 continue;
             }
 
 
-            // Test Code 
             if (nextOpenBracket == -1 
-                    || openParen == -1 || closeParen == -1) break;
-            
+            || openParen == -1 || closeParen == -1) break;
+    
             toReturn.add(markdown.substring(openParen + 1, closeParen));
             currentIndex = closeParen + 1;
 
             if (currentIndex <= previousIndex) {
-                throw new IOException();
-            }
+                 throw new IOException();
         }
-    
-        return toReturn;
-    
-    }
+}
+
+return toReturn;
+
+}
+
+            // 
+            // TestFile4.md
+//            if (openParen2 == -1 && closeParen2 == -1 && closeParen == -1) {
+//                closeParen = markdown.indexOf("]", openParen);
+//                toReturn.add(markdown.substring(openParen + 1, closeParen));
+//                return toReturn; 
+ //           }
+
+            // check for ")["
+//            if (openParen > 0 && markdown.charAt(openParen-1) != ']') {
+//                currentIndex = openParen + 1;
+//                continue;
+//            }
+
+
+            // Test Code 
+
     public static void main(String[] args) throws IOException {
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
