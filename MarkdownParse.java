@@ -56,7 +56,9 @@ public class MarkdownParse {
                 return toReturn;
             }
 
-/*            if (openParen2 == -1 && closeParen2 == -1 && closeParen == -1) {
+
+
+/*          if (openParen2 == -1 && closeParen2 == -1 && closeParen == -1) {
                 closeParen = markdown.indexOf("]", openParen);
                 toReturn.add(markdown.substring(openParen + 1, closeParen));
                 return toReturn; 
