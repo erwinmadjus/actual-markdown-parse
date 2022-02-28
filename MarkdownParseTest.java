@@ -40,4 +40,11 @@ public class MarkdownParseTest {
         List<String> expect = List.of();
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
+
+    @Test // Test method for TestFile5.md
+    public void getLinks5() throws IOException {
+        String contents = "[testFileWithNoOpenP]something.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);    
+    }
 }

@@ -41,13 +41,19 @@ public class MarkdownParse {
                 return toReturn;
             }
 
-
             // These lines of code checks to see if the program can still print out a link 
             // if there are words in between the closed brackets and the open parenthesis
             // TestFile4.md
             if (openParen > 0 && markdown.charAt(openParen-1) != ']') {
                 currentIndex = openParen + 1;
                 continue;
+            }
+
+            // These lines of code checks to see if there is no open parenthesis
+            // TestFile5.md
+            if (nextOpenBracket == -1 || nextCloseBracket == -1 
+                    || closeParen == -1 || openParen == -1) {
+                return toReturn;
             }
 
 
